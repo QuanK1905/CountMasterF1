@@ -8,6 +8,7 @@ public class Boss : MonoBehaviour
     [Header(" Detection ")]
     [SerializeField] private LayerMask runnersLayer;
     [SerializeField] private float detectionDistance;
+    [SerializeField] private Transform fightPoint;
     private Runner targetRunner;
 
     [Header(" Movement ")]
@@ -50,11 +51,9 @@ public class Boss : MonoBehaviour
             health = maxHealth;
         }
 
-
-      //  if (targetRunner == null)
             FindTargetRunner();
        
-       
+     
     }
 
     public void IsFighting()
@@ -68,13 +67,12 @@ public class Boss : MonoBehaviour
     private void FindTargetRunner()
     {
         Collider[] detectedRunners = Physics.OverlapSphere(transform.position, detectionDistance, runnersLayer);
-
+        
         if (detectedRunners.Length <= 0) return;
-
-
-
-
+     
         StartMoving();
+        
+        
     }
     private void StartMoving()
     {

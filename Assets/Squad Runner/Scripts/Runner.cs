@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using JetSystems;
 
@@ -9,9 +8,9 @@ public class Runner : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Collider collider;
     [SerializeField] private Renderer renderer;
+    
 
   
-
     [Header(" Target Settings ")]
     private bool targeted;
 
@@ -22,7 +21,7 @@ public class Runner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator.speed = 1.5f;
+        animator.speed = Random.Range(1f, 1.5f);
         animator.GetComponent<Animator>();
     }
 
@@ -54,18 +53,16 @@ public class Runner : MonoBehaviour
     }
     public void IsDancing()
     {
+        animator.SetInteger("State", 1);
         animator.SetBool("isDancing", true);
-        animator.SetBool("isRunning", false);
+     
     }
-    private IEnumerator running()
+  
+    public void StartRunning()
     {
-      
-        float delay = Random.Range(0f, 0.3f);
-        yield return new WaitForSeconds(delay);
         animator.SetInteger("State", 1);
 
     }
-
     public void StopRunning()
     {
         animator.SetInteger("State", 0);
@@ -84,16 +81,16 @@ public class Runner : MonoBehaviour
 
     public void Explode()
     {
-        collider.enabled = false;
-        renderer.enabled = false;
+       // collider.enabled = false;
+     //   renderer.enabled = false;
 
         if (transform.parent != null && transform.parent.childCount <= 1)
             UIManager.setGameoverDelegate?.Invoke();
 
         transform.parent = null;
-       
-
-        gameObject.SetActive(false);
+        
+        Destroy(gameObject);
+       // gameObject.SetActive(false);
         Audio_Manager.instance.play("Runner_Die");
     }
 }

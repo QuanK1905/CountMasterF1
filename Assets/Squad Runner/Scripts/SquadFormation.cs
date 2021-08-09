@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using TMPro;
 
@@ -65,7 +64,8 @@ public class SquadFormation : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             Runner runnerInstance = Instantiate(runnerPrefab, transform);
-            runnerInstance.SendMessage("running");
+            //  runnerInstance.SendMessage("running");
+            runnerInstance.GetComponent<Runner>().StartRunning();
             runnerInstance.name = "Runner_" + runnerInstance.transform.GetSiblingIndex();
         }
     }

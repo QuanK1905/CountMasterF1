@@ -41,7 +41,8 @@ public class SquadAnimator : MonoBehaviour
         for (int i = 0; i < runnersParent.childCount; i++)
         {
             Runner runner = runnersParent.GetChild(i).GetComponent<Runner>();
-            runner.SendMessage("running");
+            // runner.SendMessage("running");
+            runner.StartRunning();
         }
     }
 

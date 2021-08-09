@@ -16,15 +16,10 @@ public class SquadDetection : MonoBehaviour
     [SerializeField] private LayerMask finishLayer;
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask bossLayer;
-    
 
 
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    bool checkBoss = false;
     void Update()
     {
         if (UIManager.IsGame())
@@ -38,25 +33,26 @@ public class SquadDetection : MonoBehaviour
             {
                 Vector3 pos = transform.position;
                 pos.x = 0;
-                transform.position = pos;
+              //  transform.position = pos;
+                transform.position = Vector3.MoveTowards(transform.position, pos, 10 * Time.deltaTime);
             }
         }
     }
     int i;
-    bool checkBoss= false;
+    
     bool FrezePos = false;
    
     private void DetectionBoss()
     {
 
-        Vector3 distance = transform.position - 1*Vector3.back;
-        Collider[] detectBoss = Physics.OverlapSphere(distance, 0.5f, bossLayer);
+        Vector3 distance = transform.position ;
+        Collider[] detectBoss = Physics.OverlapSphere(distance, 6f, bossLayer);
            if (detectBoss.Length <= 0) return;
 
         Collider colliderBoss = detectBoss[0];
         Boss boss = colliderBoss.GetComponent<Boss>();
         FrezePos = true;
-        int damage = boss.strength;
+     
         checkBoss = true;
 
         boss.IsFighting();
@@ -129,6 +125,7 @@ public class SquadDetection : MonoBehaviour
             FindObjectOfType<FinishLine>().PlayConfettiParticles();
             for (int i = 0; i < runnersParent.childCount; i++)
             {
+                
                 runner = runnersParent.GetChild(i).GetComponent<Runner>();
                 runner.IsDancing();
             }
